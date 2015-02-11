@@ -1,4 +1,4 @@
 # Swift-iOS-AddContact with image
 
 
-![My image](username.github.com/repository/img/image.jpg)
+![My image](rudiluis.github.com/Swift-iOS-AddContact/Screenshot_iPhone/img.jpg)
