@@ -45,7 +45,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         street.returnKeyType = UIReturnKeyType.Done
         street.delegate = self
     }
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
@@ -53,10 +53,10 @@ class ViewController: UIViewController,UITextFieldDelegate {
     @IBAction func ActionButton(sender: UIButton) {
         switch ABAddressBookGetAuthorizationStatus(){
         case .Authorized:
-            println("Already authorized")
+            print("Already authorized")
             createContact()
         case .Denied:
-            println("You are denied access to address book")
+            print("You are denied access to address book")
             
         case .NotDetermined:
             ABAddressBookRequestAccessWithCompletion(addressBook,
@@ -64,18 +64,18 @@ class ViewController: UIViewController,UITextFieldDelegate {
                     
                     if granted{
                         let strongSelf = self!
-                        println("Access is granted")
+                        print("Access is granted")
                         strongSelf.createContact()
                     } else {
-                        println("Access is not granted")
+                        print("Access is not granted")
                     }
                     
             })
         case .Restricted:
-            println("Access is restricted")
+            print("Access is restricted")
             
         default:
-            println("Unhandled")
+            print("Unhandled")
         }
         
        
@@ -85,24 +85,24 @@ class ViewController: UIViewController,UITextFieldDelegate {
     
     func createContact(){
         
-              newContact(firstName.text, lastName: lastName.text, email: email.text, number: number.text, site: site.text, personimage: self.imageView.image!, street: street.text, inAddressBook: addressBook)
+              newContact(firstName.text!, lastName: lastName.text!, email: email.text!, number: number.text!, site: site.text!, personimage: self.imageView.image!, street: street.text!, inAddressBook: addressBook)
         
-        var alert = UIAlertController(title: "Informação", message: "O contacto foi adicionado!", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Informação", message: "O contacto foi adicionado!", preferredStyle: UIAlertControllerStyle.Alert)
         self.presentViewController(alert, animated: true, completion: nil)
         
         alert.addAction(UIAlertAction(title: "Fechar", style: .Default, handler: { action in
             switch action.style{
             case .Default:
-                print("")
+                print("", terminator: "")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
             }
         }))
-        
+
     }
 
     
@@ -113,7 +113,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
             let person: ABRecordRef = ABPersonCreate().takeRetainedValue()
             
            
-            let imageData : CFData =  UIImageJPEGRepresentation(personimage, 0.7)
+            let imageData : CFData =  UIImageJPEGRepresentation(personimage, 0.7)!
             
             ABRecordSetValue(person, kABPersonFirstNameProperty, firstName, nil)
             ABRecordSetValue(person, kABPersonLastNameProperty, lastName, nil)
@@ -144,9 +144,9 @@ class ViewController: UIViewController,UITextFieldDelegate {
             let couldAddPerson = ABAddressBookAddRecord(inAddressBook, person, &error)
             
             if couldAddPerson{
-                println("Successfully added the person")
+                print("Successfully added the person")
             } else {
-                println("Failed to add the person.")
+                print("Failed to add the person.")
                 return nil
             }
             
@@ -156,9 +156,9 @@ class ViewController: UIViewController,UITextFieldDelegate {
                 let couldSaveAddressBook = ABAddressBookSave(inAddressBook, &error)
                 
                 if couldSaveAddressBook{
-                    println("Successfully saved the address book")
+                    print("Successfully saved the address book")
                 } else {
-                    println("Failed to save the address book.")
+                    print("Failed to save the address book.")
                 }
             }
             
